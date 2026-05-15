@@ -1,4 +1,4 @@
-# CreateOS Cost Commander (Agent Cost Calculator)
+# Agent Cost Calculator
 
 A full-stack predictive decision engine designed to evaluate and calculate the true unit economics of deploying Agentic AI infrastructure. This platform mathematically models workload requirements against cloud infrastructure tiers to optimize cost-efficiency and eliminate the "idle server tax" found in traditional clouds.
 
