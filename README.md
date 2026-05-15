@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# CreateOS Cost Commander (Agent Cost Calculator)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack predictive decision engine designed to evaluate and calculate the true unit economics of deploying Agentic AI infrastructure. This platform mathematically models workload requirements against cloud infrastructure tiers to optimize cost-efficiency and eliminate the "idle server tax" found in traditional clouds.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## The Core Theorem: Erlang C Implementation
 
-## React Compiler
+Unlike traditional calculators that arbitrarily estimate pricing, this application implements the **Erlang C Theorem ($M/M/c$ queuing model)** within its Python backend. 
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The system processes real-world operational inputs—**Throughput** (Daily Requests) and **Latency** (Processing Time)—to calculate the traffic intensity ($A$) measured in Erlangs:
 
-## Expanding the ESLint configuration
+$$A = \lambda \cdot h$$
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Using an optimization routine, the backend evaluates the state-space distribution to solve for the absolute minimum number of parallel AI processing channels ($N$) required to satisfy an ideal service level, keeping the probability of waiting ($P_w$) near zero:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+$$P_w = \frac{\frac{A^N}{N!} \cdot \frac{N}{N - A}}{\left( \sum_{i=0}^{N-1} \frac{A^i}{i!} \right) + \left( \frac{A^N}{N!} \cdot \frac{N}{N - A} \right)}$$
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+By determining deterministic scaling boundaries rather than over-provisioning static hardware, the application maps precise compute usage against major cloud providers (AWS, Azure, GCP, Heroku) to show optimal margin yield.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## The Optimization Algorithm Workflow
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The Python FastAPI backend executes a specialized iterative algorithm to dynamically discover the optimal infrastructure footprint:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```python
+# Conceptual execution flow inside src/main.py
+1. Convert Daily Requests into raw arrivals-per-second: λ = (Requests / 86400)
+2. Calculate raw offered load (Traffic Intensity): A = λ * Processing_Time
+3. Initialize Node Capacity threshold: N = ceil(A) + 1  (Ensures stability bound where A < N)
+
+4. WHILE (True):
+     a. Compute the Erlang C numerator: (A^N / N!) * (N / (N - A))
+     b. Compute the Erlang C denominator state-sum array
+     c. Evaluate Probability of Waiting: Pw = Numerator / Denominator
+     
+     d. IF Pw <= Target_Service_Level (e.g., 5% probability of congestion):
+           BREAK and lock Node Count (N)
+        ELSE:
+           N += 1 (Scale up capacity dynamically and re-evaluate)
+
+5. Return N to compute operational billing across cloud provider matrices.
